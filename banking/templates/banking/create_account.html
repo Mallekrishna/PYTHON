@@ -9,14 +9,44 @@
             margin: 0;
             padding: 0;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
-            height: 100vh;
         }
 
-        h1 {
+        /* Header Styling */
+        .header {
+            width: 100%;
+            background-color: #4CAF50;
+            padding: 10px 20px;
+            color: white;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        .header a {
+            color: white;
+            text-decoration: none;
+            background-color: #45a049;
+            padding: 10px 15px;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+
+        .header a:hover {
+            background-color: #3d8b41;
+        }
+
+        /* Main Form Styling */
+        h2 {
             text-align: center;
             color: #333;
+            margin-top: 20px;
         }
 
         form {
@@ -26,7 +56,7 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
             width: 100%;
             max-width: 500px;
-            margin: 0 auto;
+            margin: 20px auto;
         }
 
         label {
@@ -78,7 +108,7 @@
             text-decoration: underline;
         }
 
-        /* Responsive design */
+        /* Responsive Design */
         @media (max-width: 600px) {
             form {
                 width: 90%;
@@ -88,19 +118,61 @@
             button {
                 font-size: 14px;
             }
+
+            .header h1 {
+                font-size: 18px;
+            }
+
+            .header a {
+                font-size: 14px;
+                padding: 8px 12px;
+            }
         }
     </style>
 </head>
 <body>
+    <!-- Header with "Create New Account" Button -->
+    <div class="header">
+        <h1>Account Management</h1>
+        <a href="{% url 'create_account' %}">Create New Account</a>
+    </div>
+
     <form method="POST">
-        <h1>Create a New Account</h1>
+        <h2>Create a New Account</h2>
         {% csrf_token %}
-        
+
         <label for="customer_id">Customer:</label>
         <select name="customer_id" id="customer_id" required>
             <option value="">Select a Customer</option>
-            <option value="1">Malle Krishna</option>
-            <!-- Add other customers here as needed -->
+            {% for customer in customers %}
+                <option value="{{ customer.id }}">{{ customer.name }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="account_type">Account Type:</label>
+        <select name="account_type" id="account_type" required>
+            <option value="">Select Account Type</option>
+            <option value="Savings">Savings</option>
+            <option value="Checking">Checking</option>
+            <option value="Fixed Deposit">Fixed Deposit</option>
+            <option value="Current">Current</option>
+        </select>
+
+        <label for="branch">Branch:</label>
+        <select name="branch" id="branch" required>
+            <option value="">Select Branch</option>
+            {% for branch in branches %}
+                <option value="{{ branch.id }}">{{ branch.name }}</option>
+            {% endfor %}
+        </select>
+
+        <label for="currency">Currency:</label>
+        <select name="currency" id="currency" required>
+            <option value="">Select Currency</option>
+            <option value="USD">USD</option>
+            <option value="EUR">EUR</option>
+            <option value="INR">INR</option>
+            <option value="GBP">GBP</option>
         </select>
 
         <label for="account_number">Account Number:</label>
@@ -109,11 +181,12 @@
         <label for="balance">Balance:</label>
         <input type="number" id="balance" name="balance" required placeholder="Enter initial balance" min="0" step="0.01">
 
+        <label for="opening_date">Account Opening Date:</label>
+        <input type="date" id="opening_date" name="opening_date" value="{{ today_date }}" required>
+
         <button type="submit">Create Account</button>
 
         <a href="{% url 'home' %}">Back to Home</a>
     </form>
-    
 </body>
 </html>
-

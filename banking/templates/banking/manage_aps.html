@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage APS</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f8f9fa;
+        }
+        .container {
+            max-width: 800px;
+            margin: 20px auto;
+            padding: 20px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            color: #0047ab;
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        input, select, button {
+            margin: 10px 0;
+            padding: 10px;
+            font-size: 16px;
+        }
+        button {
+            background-color: #0047ab;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #003580;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Setup Recurring Payment</h2>
+        <form method="POST">
+            {% csrf_token %}
+            <label for="account_id">Select Account:</label>
+            <select id="account_id" name="account_id" required>
+                {% for account in accounts %}
+                    <option value="{{ account.id }}">{{ account.account_number }} - {{ account.customer.name }}</option>
+                {% endfor %}
+            </select>
+            <label for="description">Description:</label>
+            <input type="text" id="description" name="description" placeholder="Enter payment description" required>
+            <label for="amount">Amount:</label>
+            <input type="number" id="amount" name="amount" step="0.01" placeholder="Enter amount" required>
+            <label for="start_date">Start Date:</label>
+            <input type="date" id="start_date" name="start_date" required>
+            <label for="frequency">Frequency:</label>
+            <select id="frequency" name="frequency">
+                <option value="daily">Daily</option>
+                <option value="weekly">Weekly</option>
+                <option value="monthly">Monthly</option>
+            </select>
+            <button type="submit">Save</button>
+        </form>
+    </div>
+</body>
+</html>

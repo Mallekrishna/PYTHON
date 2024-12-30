@@ -262,3 +262,20 @@ def report(request):
         'transactions': transactions,
         'loans': loans
     })
+''''  
+from django.shortcuts import render
+
+'''
+    
+def search_account(request):
+    name = request.GET.get('name', '').strip()  # Get the name parameter
+    print(f"Searching for accounts with name: {name}")  # Debugging log
+
+    accounts = Account.objects.filter(customer__name__icontains=name)
+    print(f"Accounts found: {accounts}")  # Debugging log
+
+    return render(request, 'banking/search_results.html', {
+        'query': name,
+        'accounts': accounts,
+    })
+

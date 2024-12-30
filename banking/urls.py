@@ -16,6 +16,7 @@ urlpatterns = [
     path('report/', views.report, name='report'),
     path('withdraw/', views.withdraw, name='withdraw'),
     path('transfer/', views.transfer, name='transfer'),
+    path('search/', views.search_account, name='search_account'),
     
 
 ]
